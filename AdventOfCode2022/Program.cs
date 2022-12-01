@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace AdventOfCode2022
 {
@@ -13,23 +15,15 @@ namespace AdventOfCode2022
         private static void PrintFile()
         {
             var lines = File.ReadAllLines("Day1/Puzzle1.txt");
-            var currentElf = 1;
-            int biggestElf = default;
+
+            var elves = new List<int>();
             var elfTotal = 0;
-            var biggestTotal = 0;
 
             foreach(var line in lines)
             {
                 if (line == "")
                 {
-                    Console.WriteLine(currentElf + " - " + elfTotal);
-                    if (elfTotal > biggestTotal)
-                    {
-                        biggestTotal = elfTotal;
-                        biggestElf = currentElf;
-                    }    
-
-                    currentElf++;
+                    elves.Add(elfTotal);
                     elfTotal = 0;
                     continue;
                 }
@@ -37,8 +31,15 @@ namespace AdventOfCode2022
                 elfTotal += value;
             }
 
-            Console.WriteLine();
-            Console.WriteLine(biggestElf + " - " + biggestTotal);
+            var total = 0;
+            foreach (var elf in elves.OrderByDescending(e => e).Take(3))
+            {
+                total += elf;
+                Console.WriteLine(elf);
+            }
+
+            Console.WriteLine("\n" + total);
+
         }
     }
 }
